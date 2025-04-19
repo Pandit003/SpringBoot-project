@@ -1,0 +1,42 @@
+<configuration>
+    <appender name="myConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+<!--                12:14:42.653 [http-nio-9090-exec-2] INFO  c.j.j.service.UserService - Error occured org.springframework.dao.DuplicateKeyException: Write operation error on server ac-wlcyg2u-shard-00-02.xbfvqsk.mongodb.net:27017. Write error: WriteError{code=11000, message='E11000 duplicate key error collection: journaldb.users index: userName dup key: { userName: "rohit" }', details={}}.; nested exception is com.mongodb.MongoWriteException: Write operation error on server ac-wlcyg2u-shard-00-02.xbfvqsk.mongodb.net:27017. Write error: WriteError{code=11000, message='E11000 duplicate key error collection: journaldb.users index: userName dup key: { userName: "rohit" }', details={}}.-->
+<!--                    level means info,warn.. -5 means spacing after level then log max 36 character -  then msg and then new line-->
+            </pattern>
+        </encoder>
+    </appender>
+
+<!--    <appender name="myFileAppender" class="ch.qos.logback.core.FileAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+        <file>
+            journalApp.log
+        </file>
+    </appender>-->
+    <appender name="myFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            journalApp.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>journalApp-%d{yy-MM-dd_HH-mm}.%i.log</fileNamePattern>  <!--new file names created in this pattern-->
+            <maxFileSize>10MB</maxFileSize> <!--If more logfile size more than 10mb then new file is created-->
+            <maxHistory>10</maxHistory> <!--if log file is more then 10 log file then delete the oldest files-->
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="myConsoleAppender"/>
+        <appender-ref ref="myFileAppender"/>
+    </root>
+</configuration>
